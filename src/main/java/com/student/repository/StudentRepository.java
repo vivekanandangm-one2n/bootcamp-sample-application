@@ -28,4 +28,9 @@ public class StudentRepository implements PanacheRepository<Student> {
     student.setId(id);
     student.setName(name);
   }
+
+  @Transactional
+  public void deleteStudent(Long id) {
+    deleteById(id);
+  }
 }
