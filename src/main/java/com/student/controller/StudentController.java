@@ -56,15 +56,29 @@ public class StudentController {
   @PUT
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public void updateStudent(@PathParam("id") Long id, UpdateStudentRequest request) {
-    // TODO check if the user with id exists
+  public Response updateStudent(@PathParam("id") Long id, UpdateStudentRequest request) {
+    Student student = studentService.getStudentById(id);
+
+    if (student == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
     studentService.updateStudent(id, request.getName());
+
+    return Response.noContent().build();
   }
 
   @DELETE
   @Path("/{id}")
-  public void deleteStudent(@PathParam("id") Long id) {
-    // TODO check if the user with id exists
+  public Response deleteStudent(@PathParam("id") Long id) {
+    Student student = studentService.getStudentById(id);
+
+    if (student == null) {
+      return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
     studentService.deleteStudentById(id);
+
+    return Response.noContent().build();
   }
 }
