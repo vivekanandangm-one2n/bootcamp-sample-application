@@ -19,7 +19,11 @@ public class Student {
   }
 
   public Student() {
+  }
 
+  public Student(Long id, String name) {
+    this.id = id;
+    this.name = name;
   }
 
   public Long getId() {
