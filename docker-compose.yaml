@@ -1,0 +1,17 @@
+services:
+  app:
+    build: ./src/main/docker/Dockerfile.native-micro
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      DB_PASSWORD: bootcamp
+      DB_URL: "jdbc:postgresql://db:5432/bootcamp"
+      DB_USER_NAME: postgres
+  db:
+    image: postgres:18.4
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: bootcamp

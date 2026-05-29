@@ -1,5 +1,30 @@
 VERSION := latest
 
+# ignore errors and continue with next command
+clean:
+	-docker stop bootcamp-pg
+	-docker rm bootcamp-pg
+	-docker stop pgadmin-container
+	-docker rm pgadmin-container
+	-docker network rm db-network
+
+# ignore errors and continue with next command
+db_up:
+	-docker network create db-network
+	-docker pull postgres:18.4
+	-docker run --name bootcamp-pg -e POSTGRES_PASSWORD=bootcamp -p 5432:5432 --network db-network \
+			-e POSTGRES_DB=bootcamp \
+			-d postgres:18.4
+	-docker pull dpage/pgadmin4:9.15.0
+	-docker run --name pgadmin-container -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=bootcamp@one2n.in \
+    			-e PGADMIN_DEFAULT_PASSWORD=bootcamp  \
+    			-v "./pg-admin/servers.json:/pgadmin4/servers.json" \
+    			--network db-network \
+    			-d dpage/pgadmin4:9.15.0
+
+dev:
+	DB_PASSWORD=bootcamp DB_URL=jdbc:postgresql://localhost:5432/bootcamp DB_USER_NAME=postgres ./mvnw quarkus:dev
+
 test:
 	./mvnw test
 
