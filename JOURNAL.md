@@ -14,3 +14,10 @@
 - Containerized the native image. Now we have a native application and since it does not need the
   JVM to run the image, the final size of the docker image is much smaller compared to the JVM one.
   It also has a faster startup time.
+
+# 29/05/2026
+
+- Setting up a local development environment using docker and make
+- Setting up PgAdmin to enable easier local development
+- The DB migrations are currently handled during application startup. Looking into solutions on how
+  to move the migrations to be run before application startup
