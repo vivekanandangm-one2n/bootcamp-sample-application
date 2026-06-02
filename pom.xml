@@ -74,6 +74,10 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-openapi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit</artifactId>
       <scope>test</scope>
     </dependency>
@@ -150,28 +154,6 @@
           <user>${env.DB_USER_NAME}</user>
           <password>${env.DB_PASSWORD}</password>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.14</version> <!-- Use the latest version -->
-        <executions>
-          <!-- Prepares the property pointing to the JaCoCo runtime agent -->
-          <execution>
-            <id>prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <!-- Creates the readable HTML/XML reports after tests run -->
-          <execution>
-            <id>report</id>
-            <phase>test</phase> <!-- Binds report generation to the test phase -->
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
