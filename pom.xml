@@ -35,6 +35,10 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-config-yaml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-jackson</artifactId>
     </dependency>
     <dependency>
@@ -62,6 +66,11 @@
     <dependency>
       <groupId>org.flywaydb</groupId>
       <artifactId>flyway-database-postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+      <version>11.17.0</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -131,6 +140,38 @@
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <version>11.17.0</version>
+        <configuration>
+          <url>${env.DB_URL}</url>
+          <user>${env.DB_USER_NAME}</user>
+          <password>${env.DB_PASSWORD}</password>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.14</version> <!-- Use the latest version -->
+        <executions>
+          <!-- Prepares the property pointing to the JaCoCo runtime agent -->
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <!-- Creates the readable HTML/XML reports after tests run -->
+          <execution>
+            <id>report</id>
+            <phase>test</phase> <!-- Binds report generation to the test phase -->
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
