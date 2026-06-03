@@ -32,3 +32,8 @@
 - Changed `.properties` to `.yaml` file
 - Added OpenAPI dependency that generates a OpenAPI spec and provided Swagger UI in dev mode
 - Working on setting up integration tests with testcontainers
+
+# 03/06/2026
+
+- Integration tests are done
+- Set up a `.env` file to load env variables
