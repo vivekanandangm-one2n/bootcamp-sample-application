@@ -1,6 +1,0 @@
-insert into student(id, name)
-values (1, "Student 1"),
-       (2, "Student 2"),
-       (3, "Student 3"),
-       (4, "Student 4"),
-       (5, "Student 5");

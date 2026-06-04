@@ -1,3 +1,6 @@
+include .env
+export
+
 VERSION := latest
 
 # ignore errors and continue with next command
@@ -12,25 +15,25 @@ clean:
 db_up:
 	-docker network create db-network
 	-docker pull postgres:18.4
-	-docker run --name bootcamp-pg -e POSTGRES_PASSWORD=bootcamp -p 5432:5432 --network db-network \
-				-e POSTGRES_DB=bootcamp \
+	-docker run --name bootcamp-pg -e POSTGRES_PASSWORD=$(DB_PASSWORD) -p 5432:5432 --network db-network \
+				-e POSTGRES_DB=$(DB_NAME) \
 				-d postgres:18.4
 	-docker pull dpage/pgadmin4:9.15.0
-	-docker run --name pgadmin-container -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=bootcamp@one2n.in \
-    			-e PGADMIN_DEFAULT_PASSWORD=bootcamp  \
+	-docker run --name pgadmin-container -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=$(PGADMIN_DEFAULT_EMAIL) \
+    			-e PGADMIN_DEFAULT_PASSWORD=$(PGADMIN_DEFAULT_PASSWORD)  \
     			-v "./pg-admin/servers.json:/pgadmin4/servers.json" \
     			--network db-network \
     			-d dpage/pgadmin4:9.15.0
 
 dev:
-	DB_PASSWORD=bootcamp DB_URL=jdbc:postgresql://localhost:5432/bootcamp DB_USER_NAME=postgres ./mvnw quarkus:dev
+	./mvnw quarkus:dev
 
 test:
 	./mvnw clean test
 
 migrate:
-	./mvnw -Dflyway.user=postgres -Dflyway.password=bootcamp \
-			-Dflyway.url=jdbc:postgresql://localhost:5432/bootcamp flyway:migrate
+	./mvnw -Dflyway.user=$(DB_USER_NAME) -Dflyway.password=$(DB_PASSWORD) \
+			-Dflyway.url=$(DB_URL) flyway:migrate
 
 build_docker:
 	./mvnw package
@@ -42,5 +45,5 @@ build_docker_native:
 
 run_docker_local:
 	docker run --name local-student-mgmt \
-				-e DB_PASSWORD=bootcamp -e DB_URL=jdbc:postgresql://bootcamp-pg:5432/bootcamp \
-				-e DB_USER_NAME=postgres -p 8081:8080 --network db-network student-mgmt:$(VERSION)
+				-e DB_PASSWORD=$(DB_PASSWORD) -e DB_URL=$(DB_URL) \
+				-e DB_USER_NAME=$(DB_USER_NAME)  -p 8081:8080 --network db-network student-mgmt:$(VERSION)
